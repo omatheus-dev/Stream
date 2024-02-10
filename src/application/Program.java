@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Program {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
@@ -36,15 +35,15 @@ public class Program {
             //coleta todos os emails com o salário maior ao valor inserido acima
             List<String> email = list.stream()
                     .filter(e -> e.getSalary() > baseSalary)
-                    .map(e -> e.getEmail())
+                    .map(Employee::getEmail)
                     .sorted()
-                    .collect(Collectors.toList());
+                    .toList();
 
             //faz a junção do salário de todas as pessoas que começam com M
             Double sum = list.stream()
                     .filter(e -> e.getName().charAt(0) == 'M')
-                    .map(e -> e.getSalary())
-                    .reduce(0.0, (x, y) -> x + y);
+                    .map(Employee::getSalary)
+                    .reduce(0.0, Double::sum);
 
             System.out.println("Email of people whose salary is more than " + String.format("%.2f", baseSalary) + ":");
             email.forEach(System.out::println);
